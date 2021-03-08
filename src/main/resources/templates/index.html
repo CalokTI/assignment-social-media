@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/head.html(currentPage = 'Index')">
+</head>
+<header th:replace="fragments/header.html"></header>
+<body>
+<main>
+    <section id="left-main">
+        <section id="new-post"> <!-- input box -->
+            <form action="/submit" method="post">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" required placeholder="title">
+                <br>
+                <label for="content">Content:</label>
+                <input type="text" name="content" id="content" required placeholder="content">
+                <br>
+                <label for="yes">Public:</label>
+                <input type="radio" name="public" id="yes" value="Yes" checked>
+                <label for="yes">Yes</label>
+                <input type="radio" name="public" id="no" value="No">
+                <label for="no">No</label>
+                <button type="submit">Submit content</button>
+            </form>
+        </section>
+
+        <section id="session-post"> <!--shows current session's posts -->
+            <h2>Your posts</h2>
+            <article th:each="posts : ${session.sessionPosts}">
+                <h4 th:text="${posts.title}"></h4>
+                <p th:text="${posts.content}"></p>
+            </article>
+        </section>
+    </section>
+
+    <section id="right-main">
+        <section id="all-posts"> <!--shows all public posts -->
+            <h2>All posts</h2>
+            <article th:each="posts : ${posts}" th:if="${posts.isPublic == true}">
+                <h4 th:text="${posts.title}"></h4>
+                <p th:text="${posts.content}"></p>
+
+            </article>
+        </section>
+    </section>
+</main>
+</body>
+<footer th:replace="fragments/footer.html"></footer>
+</html>
